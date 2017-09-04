@@ -7,12 +7,13 @@ class City {
 
   show() {
     fill(255)
-    ellipse(this.pos.x, this.pos.y, 8, 8)
+    ellipse(this.pos.x, this.pos.y, 6, 6)
   }
 
   showNumber() {
-    textSize(20);
+    textSize(12);
     fill('purple');
+    noStroke()
     text(this.index, this.pos.x, this.pos.y);
   }
 }
