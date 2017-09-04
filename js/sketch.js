@@ -1,12 +1,22 @@
-const numOfCities = prompt('How many cities?')  // Quantidade de cidades a percorrer
-let paths = [] // array que armazena os caminhos já percorridos
-let cities = [] // array que armazena as cidades
-let roads = [] // array que armazena todas as vias possíveis
+const numberOfCities = prompt('How many cities?')
+let cities = []
 
-// Função principal
 function setup() {
   createScenario()
   initializeCities()
   connectCities()
-  createPath()
 }
+
+// function draw() {
+//   fill(255)
+//   line(
+//     initialCity.position.x,
+//     initialCity.position.y,
+//     cities[initialCity.connections[0]].position.x,
+//     cities[initialCity.connections[0]].position.y
+//   )
+//
+//   for (let i = 0; i < numberOfCities; i++) {
+//
+//   }
+// }
