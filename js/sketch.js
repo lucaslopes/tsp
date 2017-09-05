@@ -1,18 +1,19 @@
-const numeroDePontos = prompt('Quantos pontos?')
-let ilhas = []
+const people = prompt('How many people?')
+let groups = []
 let canvas
 
 function setup() {
-  crieAmbiente()
-  carregueIlhas()
+  initializeScenario()
+  createGroups()
 
-  // while(ilhas.length > 1) {
-  //     acheMelhorDeCadaIlha()
-  //     conecteOsQuePossuemMelhorEmComum()
-  // }
-  //
-  // ilhas = ilhas[0].pontos
-  // refinarConexoes()
-  // desenharCaminho()
+  while(groups.length > 1) {
+   searchFriends()
+   connectGroups()
+  }
+
+  groups = groups[0].members
+  // improveFriendships()
+  showFriendships()
+
   canvas.mouseClicked(mouse);
 }
