@@ -1,8 +1,8 @@
 class City {
-  constructor(posX, posY) {
+  constructor(posX, posY, id) {
     this.position = createVector(posX, posY)
-    // this.id = id
-    // this.size = 10 // map(people, 250, 1, 3, 15)
+    this.id = id
+    this.size = 3 // map(people, 250, 1, 3, 15)
   }
 
   show() {
