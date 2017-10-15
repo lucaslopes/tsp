@@ -12,7 +12,7 @@ function agrupamentoReciprocidade(dist) {
     groups = acheParidades(reciprocity, groups)
   }
 
-  return groups[0]
+  return improveConnections(groups[0], dist)
 }
 
 function findChosen(i, groups, dist) {
@@ -83,6 +83,26 @@ function acheParidades(vet, groups) {
 
   return newGroup
 }
+
+function improveConnections(path, dist) {
+  for (let i = 1; i < path.length - 2; i++) {
+    let pointAconec = path[i - 1]
+    let pointA      = path[i]
+    let pointB      = path[i + 1]
+    let pointBconec = path[i + 2]
+
+    if ((getDist(pointAconec, pointA, dist) +
+         getDist(pointA, pointB, dist) +
+         getDist(pointB, pointBconec, dist))
+         >
+        (getDist(pointAconec, pointB, dist) +
+         getDist(pointB, pointA, dist) +
+         getDist(pointA, pointBconec, dist)))
+    [path[i], path[i + 1]] = [path[i + 1], path[i]]
+  }
+  return path
+}
+
 
 function getDist(x, y, dist) {
   let d
