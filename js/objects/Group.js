@@ -23,25 +23,22 @@ class Group {
     let friend = []
 
     for (let i = 0; i < this.newMembers.length; i++) {
-    for (let j = 0; j < groups.length; j++) {
-    if  (this != groups[j]) {
-    for (let k = 0; k < groups[j].newMembers.length; k++) {
+      for (let j = 0; j < groups.length; j++) {
+        if  (this != groups[j]) {
+          for (let k = 0; k < groups[j].newMembers.length; k++) {
 
-      let distance =
-        this.members[this.newMembers[i]].howFarFrom(
-        groups[j].members[groups[j].newMembers[k]])
+            let distance =
+              this.members[this.newMembers[i]].howFarFrom(
+              groups[j].members[groups[j].newMembers[k]])
 
-      if (closer > distance) {
-        closer = distance
-        friend = [
-          this.newMembers[i],
-          j,
-          groups[j].newMembers[k]
-        ]
-      }
-
-    } } } } // testar
-
+            if (closer > distance) {
+              closer = distance
+              friend = [
+                this.newMembers[i],
+                j,
+                groups[j].newMembers[k]
+              ]
+    } } } } }
     this.friend = friend
   }
 
