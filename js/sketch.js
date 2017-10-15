@@ -1,9 +1,21 @@
 const people = prompt('How many people?')
 let groups = []
-let canvas
 
 function setup() {
-  canvas = createCanvas(windowWidth, windowHeight)
+  initializeScenario()
+
+  while(groups.length > 1) {
+    searchFriends()
+    connectGroups()
+  }
+
+  groups = groups[0].members
+  improveFriendships()
+  showFriendships()
+}
+
+function initializeScenario() {
+  createCanvas(windowWidth, windowHeight)
   background(51)
 
   for (let i = 0; i < people; i++) {
@@ -13,19 +25,6 @@ function setup() {
 
     groups.push(new Group([newPerson]))
     groups[i].members[0].show()
-  }
-
-  canvas.mouseClicked(mouse)
-}
-
-function mouse() {
-  if (groups.length > 1) {
-    searchFriends()
-    connectGroups()
-  } else {
-    groups = groups[0].members
-    improveFriendships()
-    showFriendships()
   }
 }
 
