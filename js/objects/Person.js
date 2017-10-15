@@ -21,7 +21,6 @@ class Person {
   join(otherPerson) {
     line(
       this.position.x, this.position.y,
-      otherPerson.position.x, otherPerson.position.y
-    )
+      otherPerson.position.x, otherPerson.position.y)
   }
 }

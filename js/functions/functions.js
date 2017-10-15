@@ -1,18 +1,25 @@
 function initializeScenario() {
-  canvas = createCanvas(windowWidth, windowHeight);
+  canvas = createCanvas(windowWidth, windowHeight)
   background(51)
-}
 
-function createGroups() {
   for (let i = 0; i < people; i++) {
     let newPerson = new Person(
       random(20, width - 20),
-      random(20, height - 20),
-      i
-    )
+      random(20, height - 20), i)
 
     groups.push(new Group([newPerson]))
     groups[i].members[0].show()
+  }
+}
+
+function mouse() {
+  if (groups.length > 1) {
+    searchFriends()
+    connectGroups()
+  } else {
+    groups = groups[0].members
+    improveFriendships()
+    showFriendships()
   }
 }
 
@@ -62,18 +69,13 @@ function improveFriendships() {
 }
 
 function showFriendships() {
-  stroke(255)
+  stroke(255,0,255)
   noFill()
 
   beginShape()
   for (let i = 0; i < groups.length; i++)
     vertex(groups[i].position.x, groups[i].position.y)
   endShape()
-}
-
-function mouse() {
-  searchFriends()
-  connectGroups()
 }
 
 // function whatTheFirstIndexOf(person) {
