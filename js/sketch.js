@@ -1,47 +1,43 @@
-const numberOfCities = prompt('How many cities?')
-let cities = []
+let points = []
 
 function setup() {
-  initializeScenario()
-  let dist = calculateDistances()
-  let route = agrupamentoReciprocidade(dist)
-  drawRoutes(route)
-
+  init(prompt('How many points?'))  // Step 1
+  drawRoute(                        // Step 4
+    agrupamentoReciprocidade(       // Step 3
+      setDist()))                   // Step 2
 }
 
-function initializeScenario() {
-  createCanvas(windowWidth, windowHeight);
+function init(n) {
+  createCanvas(windowWidth, windowHeight)
   background(51)
 
-  for (let i = 0; i < numberOfCities; i++) {
-    let newCity = new City(
+  for (let i = 0; i < n; i++) {
+    let newPoint = new Point(
       random(20, width - 20),
-      random(20, height - 20), i
-    )
-
-    cities.push(newCity)
-    cities[i].show()
+      random(20, height - 20))
+    newPoint.show()
+    points.push(newPoint)
   }
 }
 
-function calculateDistances() {
+function setDist() {
   let dist = []
-  for (var i = 1; i < cities.length; i++) {
-    let linhaAtual = []
+  for (var i = 1; i < points.length; i++) {
+    let currentRow = []
     for (var j = 0; j < i; j++)
-      linhaAtual.push(
-        cities[i].position.dist(cities[j].position))
-    dist.push(linhaAtual)
+      currentRow.push(
+        points[i].pos.dist(points[j].pos))
+    dist.push(currentRow)
   }
   return dist
 }
 
-function drawRoutes(route) {
+function drawRoute(route) {
   stroke(255, 0, 255)
   noFill()
 
   beginShape()
   for (let i = 0; i < route.length; i++)
-    vertex(cities[route[i]].position.x, cities[route[i]].position.y)
+    vertex(points[route[i]].pos.x, points[route[i]].pos.y)
   endShape()
 }

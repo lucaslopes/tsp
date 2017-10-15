@@ -1,60 +1,48 @@
-let distances = []
-let groups = []
-
 function agrupamentoReciprocidade(dist) {
   dist.splice(0, 0, [Infinity])
-  distances = dist
-  for (let i = 0; i < distances.length; i++)
+
+  let groups = []
+  for (let i = 0; i < dist.length; i++)
     groups.push([i])
 
   while (groups.length > 1) {
     let reciprocity = []
     for (let i = 0; i < groups.length; i++)
-      reciprocity.push(findChosen(i))
-    acheParidades(reciprocity)
+      reciprocity.push(findChosen(i, groups, dist))
+    groups = acheParidades(reciprocity, groups)
   }
 
   return groups[0]
 }
 
-function findChosen(i) {
+function findChosen(i, groups, dist) {
   let menor = Infinity
-  let linhaDesejada = [
-    // índice da linha
-    // por onde conectar (0 = inicio / 1 = final)
-  ]
   let comparacoes = [
     groups[i][0],
     groups[i][groups[i].length - 1]
   ]
+  let linhaDesejada = [
+    // índice da linha
+    // por onde conectar (0 = inicio / 1 = final)
+  ]
 
   for (let j = 0; j < groups.length; j++) {
-    comparacoes.splice(2, 2)
-
     if (i != j) {
-      comparacoes.push(groups[j][0])
-      comparacoes.push(groups[j][groups[j].length - 1])
+      comparacoes[2] = groups[j][0]
+      comparacoes[3] = groups[j][groups[j].length - 1]
 
       for (let k = 0; k < 2; k++) {
         for (let w = 2; w < 4; w++) {
-          let distAtual = distanceBetween(comparacoes[k], comparacoes[w])
+          let distAtual = getDist(comparacoes[k], comparacoes[w], dist)
           if (distAtual < menor) {
             linhaDesejada = [j, k]
             menor = distAtual
-    } } } } }
+  } } } } }
 
-    return linhaDesejada
+  return linhaDesejada
 }
 
-function distanceBetween(x, y) {
-  let distAtual
-  x > y ?
-    distAtual = distances[x][y] :
-    distAtual = distances[y][x]
-  return distAtual
-}
-
-function acheParidades(vet) {
+function acheParidades(vet, groups) {
   let newGroup = []
   let listaUnidos = []
 
@@ -62,7 +50,7 @@ function acheParidades(vet) {
     let want = vet[i][0]
     let newVet = []
 
-    if (vet[want][0] == i && !pertence(want, listaUnidos)) {
+    if (vet[want][0] == i && !contains(want, listaUnidos)) {
       switch (true) {
         case (vet[i][1] == 0 && vet[want][1] == 0):
           groups[i].reverse()
@@ -82,7 +70,6 @@ function acheParidades(vet) {
           newVet = groups[want].concat(groups[i])
           break;
       }
-
       listaUnidos.push(i, want)
     }
 
@@ -91,15 +78,23 @@ function acheParidades(vet) {
   }
 
   for (let i = 0; i < groups.length; i++)
-    if (!pertence(i, listaUnidos))
+    if (!contains(i, listaUnidos))
       newGroup.push(groups[i])
 
-  groups = newGroup
+  return newGroup
 }
 
-function pertence(elem, lista) {
-  for (let i = 0; i < lista.length; i++)
-    if (elem == lista[i])
+function getDist(x, y, dist) {
+  let d
+  x > y ?
+    d = dist[x][y] :
+    d = dist[y][x]
+  return d
+}
+
+function contains(elem, list) {
+  for (let i = 0; i < list.length; i++)
+    if (elem == list[i])
         return true
   return false
 }
