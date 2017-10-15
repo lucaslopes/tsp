@@ -1,13 +1,1 @@
-class Point {
-  constructor(posX, posY) {
-    this.pos = createVector(posX, posY)
-    this.size = 3 // map(people, 250, 1, 3, 15)
-  }
-
-  show() {
-    stroke(175)
-    fill(255)
-    ellipse(this.pos.x, this.pos.y, this.size, this.size)
-    // text(this.id, this.pos.x - 20, this.pos.y - 20)
-  }
-}
+"use strict";var _createClass=function(){function a(b,c){for(var e,d=0;d<c.length;d++)e=c[d],e.enumerable=e.enumerable||!1,e.configurable=!0,"value"in e&&(e.writable=!0),Object.defineProperty(b,e.key,e)}return function(b,c,d){return c&&a(b.prototype,c),d&&a(b,d),b}}();function _classCallCheck(a,b){if(!(a instanceof b))throw new TypeError("Cannot call a class as a function")}var Point=function(){function a(b,c){_classCallCheck(this,a),this.pos=createVector(b,c),this.size=3}return _createClass(a,[{key:"show",value:function show(){stroke(175),fill(255),ellipse(this.pos.x,this.pos.y,this.size,this.size)}}]),a}();
