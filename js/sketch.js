@@ -1,10 +1,11 @@
 let points = []
 
 function setup() {
-  init(prompt('How many points?'))  // Step 1
-  drawRoute(                        // Step 4
-    agrupamentoReciprocidade(       // Step 3
-      setDist()))                   // Step 2
+  let numPoints = prompt('How many points?') // Step 1
+                  init(numPoints)            // Step 2
+  let distances = setDist()                  // Step 3
+  let route     = reciprocity(distances)     // Step 4
+                  drawRoute(route)           // Step 5
 }
 
 function init(n) {

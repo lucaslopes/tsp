@@ -1,4 +1,4 @@
-function agrupamentoReciprocidade(dist) {
+function reciprocity(dist) {
   dist.splice(0, 0, [Infinity])
 
   let groups = []
@@ -8,77 +8,77 @@ function agrupamentoReciprocidade(dist) {
   while (groups.length > 1) {
     let reciprocity = []
     for (let i = 0; i < groups.length; i++)
-      reciprocity.push(findChosen(i, groups, dist))
-    groups = acheParidades(reciprocity, groups)
+      reciprocity.push(findClosest(i, groups, dist))
+    groups = joinMutual(reciprocity, groups)
   }
 
   return improveConnections(groups[0], dist)
 }
 
-function findChosen(i, groups, dist) {
-  let menor = Infinity
-  let comparacoes = [
+function findClosest(i, groups, dist) {
+  let shorter = Infinity
+  let comparisons = [
     groups[i][0],
     groups[i][groups[i].length - 1]
   ]
-  let linhaDesejada = [
-    // índice da linha
-    // por onde conectar (0 = inicio / 1 = final)
+  let desiredIndex = [
+    // index of the desired point
+    // from where to connect (0 = beginning / 1 = end)
   ]
 
   for (let j = 0; j < groups.length; j++) {
     if (i != j) {
-      comparacoes[2] = groups[j][0]
-      comparacoes[3] = groups[j][groups[j].length - 1]
+      comparisons[2] = groups[j][0]
+      comparisons[3] = groups[j][groups[j].length - 1]
 
       for (let k = 0; k < 2; k++) {
         for (let w = 2; w < 4; w++) {
-          let distAtual = getDist(comparacoes[k], comparacoes[w], dist)
-          if (distAtual < menor) {
-            linhaDesejada = [j, k]
-            menor = distAtual
+          let currentDist = getDist(comparisons[k], comparisons[w], dist)
+          if (currentDist < shorter) {
+            desiredIndex = [j, k]
+            shorter = currentDist
   } } } } }
 
-  return linhaDesejada
+  return desiredIndex
 }
 
-function acheParidades(vet, groups) {
+function joinMutual(array, groups) {
   let newGroup = []
-  let listaUnidos = []
+  let connectedList = []
 
-  for (let i = 0; i < vet.length; i++) {
-    let want = vet[i][0]
-    let newVet = []
+  for (let i = 0; i < array.length; i++) {
+    let want = array[i][0]
+    let newArray = []
 
-    if (vet[want][0] == i && !contains(want, listaUnidos)) {
+    if (array[want][0] == i && !contains(want, connectedList)) {
       switch (true) {
-        case (vet[i][1] == 0 && vet[want][1] == 0):
+        case (array[i][1] == 0 && array[want][1] == 0):
           groups[i].reverse()
-          newVet = groups[i].concat(groups[want])
+          newArray = groups[i].concat(groups[want])
           break;
 
-        case (vet[i][1] == 0 && vet[want][1] == 1):
-          newVet = groups[want].concat(groups[i])
+        case (array[i][1] == 0 && array[want][1] == 1):
+          newArray = groups[want].concat(groups[i])
           break;
 
-        case (vet[i][1] == 1 && vet[want][1] == 0):
-          newVet = groups[i].concat(groups[want])
+        case (array[i][1] == 1 && array[want][1] == 0):
+          newArray = groups[i].concat(groups[want])
           break;
 
-        case (vet[i][1] == 1 && vet[want][1] == 1):
+        case (array[i][1] == 1 && array[want][1] == 1):
           groups[i].reverse()
-          newVet = groups[want].concat(groups[i])
+          newArray = groups[want].concat(groups[i])
           break;
       }
-      listaUnidos.push(i, want)
+      connectedList.push(i, want)
     }
 
-    if (newVet.length > 0)
-      newGroup.push(newVet)
+    if (newArray.length > 0)
+      newGroup.push(newArray)
   }
 
   for (let i = 0; i < groups.length; i++)
-    if (!contains(i, listaUnidos))
+    if (!contains(i, connectedList))
       newGroup.push(groups[i])
 
   return newGroup
@@ -86,18 +86,18 @@ function acheParidades(vet, groups) {
 
 function improveConnections(path, dist) {
   for (let i = 1; i < path.length - 2; i++) {
-    let pointAconec = path[i - 1]
+    let pointAback  = path[i - 1]
     let pointA      = path[i]
     let pointB      = path[i + 1]
-    let pointBconec = path[i + 2]
+    let pointBfront = path[i + 2]
 
-    if ((getDist(pointAconec, pointA, dist) +
-         getDist(pointA, pointB, dist) +
-         getDist(pointB, pointBconec, dist))
+    if ((getDist(pointAback, pointA,      dist) +
+         getDist(pointA,     pointB,      dist) +
+         getDist(pointB,     pointBfront, dist))
          >
-        (getDist(pointAconec, pointB, dist) +
-         getDist(pointB, pointA, dist) +
-         getDist(pointA, pointBconec, dist)))
+        (getDist(pointAback, pointB,      dist) +
+         getDist(pointB,     pointA,      dist) +
+         getDist(pointA,     pointBfront, dist)))
     [path[i], path[i + 1]] = [path[i + 1], path[i]]
   }
   return path
