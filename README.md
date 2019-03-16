@@ -1,2 +1,2 @@
-# Traveling Salesman Problem
-> This algorithm belongs to my undergraduate thesis
+# Heuristic of Reciprocity 
+> This algorithm is the implementation of my undergraduate thesis.
